@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'extensions.dart';
 
 import 'global.dart' as global;
-import 'structure.dart';
-import 'books_utility.dart';
 import 'dialog.dart';
 
 class PrintBook extends StatefulWidget {
@@ -132,8 +129,8 @@ class MyPainter extends CustomPainter {
 
     // debug
     int currentChapter = global.globalAppConfig.currentBook.currentChapter;
-    print('currentChapter : $currentChapter');
-    print('currentPage : $currentPage');
+    //print('currentChapter : $currentChapter');
+    //print('currentPage : $currentPage');
 
     TextStyle textStyle = TextStyle(
       // 因為預設 flutter 中文標點符號字形是對齊左下角，不是置中，因此另外下載 'Noto Sans Traditional Chinese' 字形，
@@ -150,7 +147,7 @@ class MyPainter extends CustomPainter {
     int columns = 1;
     String columnString = '';
     bool drawColumn = false;
-    int lastChracterPosition = global.globalAppConfig.currentBook.currentChapterInfo.chapterString.length -1;
+    int lastCharacterPosition = global.globalAppConfig.currentBook.currentChapterInfo.chapterString.length -1;
     for (int i = global.globalAppConfig.currentBook.currentChapterInfo.pageStartPos[currentPage];
     i < global.globalAppConfig.currentBook.currentChapterInfo.chapterString.length;
     i++) {
@@ -173,7 +170,7 @@ class MyPainter extends CustomPainter {
           words = 0;
         }
 
-        if(i == lastChracterPosition) {
+        if(i == lastCharacterPosition) {
           drawColumn = true;
           columns++;
           words = 0;
