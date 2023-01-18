@@ -44,10 +44,12 @@ dependencies:
   package_info_plus: ^3.0.2
   card_settings: ^3.3.0
   path: ^1.8.2
+  flutter_launcher_icons: ^0.11.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -92,3 +94,8 @@ flutter:
         #    - asset: fonts/NotoSansTC-Medium.otf
         - asset: fonts/NotoSansTC-Regular.otf
         #    - asset: fonts/NotoSansTC-Thin.otf
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/read_hd_book.png"
