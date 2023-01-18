@@ -16,13 +16,13 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: '好好讀書',
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: const MainPage(title: 'HD Read Book'),
+      home: const MainPage(title: '好好讀書'),
       routes: <String, WidgetBuilder> {
-        '/MainPage': (BuildContext context) => const MainPage(title: 'HD Read Book'),
+        '/MainPage': (BuildContext context) => const MainPage(title: '好好讀書'),
         '/MainPage/BrowseBooks' : (BuildContext context) => const BrowseBooks(),
         '/MainPage/BrowseChapters' : (BuildContext context) => const BrowseChapters(),
         '/MainPage/Settings' : (BuildContext context) => const Settings(),

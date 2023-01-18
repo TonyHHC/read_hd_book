@@ -209,7 +209,7 @@ class _MainPageState extends State<MainPage> {
           children: <Widget>[
             const DrawerHeader(
               decoration: BoxDecoration(),
-                child: Text('HD Read Book', textAlign: TextAlign.center, style: TextStyle(fontSize: 26),)),
+                child: Text('好好讀書', textAlign: TextAlign.center, style: TextStyle(fontSize: 26),)),
             ListTile(
                 leading: const Icon(Icons.open_in_new_rounded, color: Colors.blueAccent,),
                 title: const Text('開啟書本'),
@@ -243,12 +243,16 @@ class _MainPageState extends State<MainPage> {
                 }),*/
             AboutListTile(
                 icon: const Icon(Icons.info_outline, color: Colors.blueGrey),
-                applicationIcon: const FlutterLogo(),
-                applicationName: 'HD Read Book',
+                applicationIcon: Image.asset(
+                  'assets/read_hd_book.png',
+                  height: 100,
+                  width: 100,
+                ),
+                applicationName: '好好讀書',
                 applicationVersion: _packageInfo.version,
                 applicationLegalese: '\u{a9} Tony Huang',
                 aboutBoxChildren: aboutBoxChildren,
-                child: const Text('關於 HD Read Book')
+                child: const Text('關於 好好讀書')
             )
           ],
         )),
