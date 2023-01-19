@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:provider/provider.dart';
 
 import 'global.dart' as global;
+import 'app_config.dart';
 import 'structure.dart';
-import 'dialog.dart';
+//import 'dialog.dart';
 import 'print_book.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key, required this.title});
+   MainPage({super.key, required this.title}) {
+     // TODO: implement MainPage
+   }
 
   final String title;
 
@@ -18,7 +22,6 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   String _hasStoragePermission = 'under checking';
-  bool _readAppConfigComplete = false;
 
   bool _refreshAppBarAgain = false;
 
@@ -53,11 +56,6 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
-  Future<void> _readAppConfig() async {
-    await global.globalAppConfig.loadAppConfig();
-    setState(() => _readAppConfigComplete = true);
-  }
-
   void _onTapDir(details) {
     _openBrowseChapters();
   }
@@ -78,8 +76,7 @@ class _MainPageState extends State<MainPage> {
 
   void _openBrowseChapters() {
     Navigator.pushNamed(context, '/MainPage/BrowseChapters', arguments: '注意，這邊只能傳一個參數，如果想要傳多個參數，請自己寫個物件包起來').then((value) => {
-          if (value != global.globalAppConfig.currentBook.currentChapter)
-            {
+          if (value != global.globalAppConfig.currentBook.currentChapter) {
               global.globalAppConfig.currentBook.currentChapter = value as int,
               global.globalAppConfig.currentBook.currentChapterInfo.reset(),
               global.globalAppConfig.currentBook.currentPosInChapter = 0,
@@ -92,15 +89,21 @@ class _MainPageState extends State<MainPage> {
   }
 
   void _openSettings() {
-    Navigator.pushNamed(context, '/MainPage/Settings').then((value) => {
-          if (value == true)
-            {
-              global.globalAppConfig.currentBook.currentChapterInfo.reset(),
-              setState(() {
-                _refreshAppBarAgain = true;
-              }),
-            }
-        });
+    Navigator.pushNamed(context, '/MainPage/Settings').then((value) =>
+    {
+      if (value == true) {
+          global.globalAppConfig.currentBook.currentChapterInfo.reset(),
+          _resetApp(),
+          setState(() {
+            _refreshAppBarAgain = true;
+          }),
+      },
+    });
+  }
+
+  void _resetApp() {
+    AppConfigChangeNotifier appConfigChangeNotifier = Provider.of<AppConfigChangeNotifier>(context,  listen: false);
+    appConfigChangeNotifier.settingsChange();
   }
 
   Future<void> _initPackageInfo() async {
@@ -115,7 +118,6 @@ class _MainPageState extends State<MainPage> {
     super.initState();
     _initPackageInfo();
     _checkStoragePermission();
-    _readAppConfig();
   }
 
   @override
@@ -154,7 +156,7 @@ class _MainPageState extends State<MainPage> {
       ),
     ];
 
-    if (_hasStoragePermission == 'true' && _readAppConfigComplete) {
+    if (_hasStoragePermission == 'true') {
       var height = AppBar().preferredSize.height;
       TextStyle primaryStyle = TextStyle(fontSize: height / 2.5, color: Colors.white);
       TextStyle secondaryStyle = TextStyle(fontSize: height / 4, color: Colors.white);

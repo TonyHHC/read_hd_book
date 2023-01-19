@@ -2,9 +2,20 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import 'package:path_provider/path_provider.dart';
 
 import 'structure.dart';
+
+class AppConfigChangeNotifier extends ChangeNotifier  {
+
+  AppConfigChangeNotifier() {
+    //
+  }
+
+  // settings change
+  void settingsChange() {
+    notifyListeners();
+  }
+}
 
 class AppConfig {
   String rootDir = '/storage/emulated/0';
@@ -12,6 +23,9 @@ class AppConfig {
   // BookInfo
   BookInfo currentBook = BookInfo();
   String currentBookKey = '';
+
+  // ThemeData primarySwatch default value
+  final Color _defaultThemeDataPrimarySwatch = Colors.blueGrey;
 
   // Print Book default values
   final Color _defaultCanvasBackgroundColor = Colors.black;
@@ -23,6 +37,9 @@ class AppConfig {
   final double _defaultWordSpace = 1.2;
   final int _defaultNewlineSpace = 2;
   final int _defaultParagraphSpace = 0;
+
+  // ThemeData primarySwatch
+  late Color themeDataPrimarySwatch;
 
   // Print Book properties
   late Color canvasBackgroundColor;
@@ -42,6 +59,8 @@ class AppConfig {
 
   // reset print book properties
   void resetPrintBookProperties() {
+    themeDataPrimarySwatch = _defaultThemeDataPrimarySwatch;
+
     canvasBackgroundColor = _defaultCanvasBackgroundColor;
     canvasForegroundColor = _defaultCanvasForegroundColor;
 
@@ -68,6 +87,8 @@ class AppConfig {
   Future<void> loadPrintBookProperties() async {
     final prefs = await SharedPreferences.getInstance();
 
+    themeDataPrimarySwatch = Color(prefs.getInt('themeDataPrimarySwatch') ?? _defaultThemeDataPrimarySwatch.value);
+
     canvasBackgroundColor = Color(prefs.getInt('canvasBackgroundColor') ?? _defaultCanvasBackgroundColor.value);
     canvasForegroundColor = Color(prefs.getInt('canvasForegroundColor') ?? _defaultCanvasForegroundColor.value);
 
@@ -81,6 +102,8 @@ class AppConfig {
 
   Future<void> savePrintBookProperties() async {
     final prefs = await SharedPreferences.getInstance();
+
+    prefs.setInt('themeDataPrimarySwatch', themeDataPrimarySwatch.value);
 
     prefs.setInt('canvasBackgroundColor', canvasBackgroundColor.value);
     prefs.setInt('canvasForegroundColor', canvasForegroundColor.value);

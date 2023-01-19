@@ -37,6 +37,14 @@ class _Settings extends State<Settings> {
                           ),
                           children: <CardSettingsWidget>[
                             CardSettingsColorPicker(
+                              label: 'AppBar 色彩',
+                              pickerType: CardSettingsColorPickerType.block,
+                              initialValue: global.globalAppConfig.themeDataPrimarySwatch,
+                              onSaved: (value) {
+                                global.globalAppConfig.themeDataPrimarySwatch = value!;
+                              },
+                            ),
+                            CardSettingsColorPicker(
                               label: '文字色彩',
                               pickerType: CardSettingsColorPickerType.material,
                               initialValue: global.globalAppConfig.canvasForegroundColor,
