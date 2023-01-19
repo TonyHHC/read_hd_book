@@ -13,11 +13,6 @@ class Settings extends StatefulWidget {
 class _Settings extends State<Settings> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  String title = "Spheria";
-  String author = "Cody Leet";
-  String url = "http://www.codyleet.com/spheria";
-  String name = 'tony';
-
   @override
   void initState() {
     super.initState();
@@ -38,7 +33,7 @@ class _Settings extends State<Settings> {
                     child: CardSettings.sectioned(children: <CardSettingsSection>[
                       CardSettingsSection(
                           header: CardSettingsHeader(
-                            label: '書本顏色',
+                            label: '顏色',
                           ),
                           children: <CardSettingsWidget>[
                             CardSettingsColorPicker(

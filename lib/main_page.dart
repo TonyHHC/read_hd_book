@@ -17,7 +17,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  bool _hasStoragePermission = false;
+  String _hasStoragePermission = 'under checking';
   bool _readAppConfigComplete = false;
 
   bool _refreshAppBarAgain = false;
@@ -47,9 +47,9 @@ class _MainPageState extends State<MainPage> {
     PermissionStatus resultS = await Permission.storage.request();
 
     if (resultS.isGranted) {
-      setState(() => _hasStoragePermission = true);
+      setState(() => _hasStoragePermission = 'true');
     } else {
-      setState(() => _hasStoragePermission = false);
+      setState(() => _hasStoragePermission = 'false');
     }
   }
 
@@ -84,18 +84,23 @@ class _MainPageState extends State<MainPage> {
               global.globalAppConfig.currentBook.currentChapterInfo.reset(),
               global.globalAppConfig.currentBook.currentPosInChapter = 0,
               global.globalAppConfig.saveCurrentBookInfo(),
-              setState(() {_refreshAppBarAgain = true;}),
+              setState(() {
+                _refreshAppBarAgain = true;
+              }),
             }
         });
   }
 
   void _openSettings() {
     Navigator.pushNamed(context, '/MainPage/Settings').then((value) => {
-      if(value == true) {
-        global.globalAppConfig.currentBook.currentChapterInfo.reset(),
-        setState(() {_refreshAppBarAgain = true;}),
-      }
-    });
+          if (value == true)
+            {
+              global.globalAppConfig.currentBook.currentChapterInfo.reset(),
+              setState(() {
+                _refreshAppBarAgain = true;
+              }),
+            }
+        });
   }
 
   Future<void> _initPackageInfo() async {
@@ -115,7 +120,18 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    Scaffold objScaffold;
+    Scaffold objScaffold = Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: Center(
+          child: Image.asset(
+            'assets/read_hd_book.png',
+            //height: 1024,
+            //width: 1024,
+          ),
+        )
+    );
 
     final ThemeData theme = Theme.of(context);
     final TextStyle textStyle = theme.textTheme.bodyMedium!;
@@ -126,19 +142,19 @@ class _MainPageState extends State<MainPage> {
           children: <TextSpan>[
             TextSpan(
                 style: textStyle,
-                text: "Flutter is Google's UI toolkit for building beautiful, "
-                    'natively compiled applications for mobile, web, and desktop '
-                    'from a single codebase. Learn more about Flutter at '),
-            TextSpan(
-                style: textStyle.copyWith(color: theme.colorScheme.primary),
-                text: 'https://flutter.dev'),
+                text: '好好讀書 App 是用來閱讀好讀網站 PDB 與 uPDB 格式的電子書，'
+                      '歡迎大家免費使用。\n'
+                      '本 App 是使用 Flutter 開發。\n'
+                      '好讀網站資訊請參閱 '
+            ),
+            TextSpan(style: textStyle.copyWith(color: theme.colorScheme.primary), text: 'https://www.haodoo.net/'),
             TextSpan(style: textStyle, text: '.'),
           ],
         ),
       ),
     ];
 
-    if (_hasStoragePermission && _readAppConfigComplete) {
+    if (_hasStoragePermission == 'true' && _readAppConfigComplete) {
       var height = AppBar().preferredSize.height;
       TextStyle primaryStyle = TextStyle(fontSize: height / 2.5, color: Colors.white);
       TextStyle secondaryStyle = TextStyle(fontSize: height / 4, color: Colors.white);
@@ -154,9 +170,9 @@ class _MainPageState extends State<MainPage> {
           showDirName = global.globalAppConfig.currentBook.getChapterName(global.globalAppConfig.currentBook.currentChapter);
         }
         if (global.globalAppConfig.currentBook.currentChapterInfo.totalPages > 0) {
-          int currentPage =
-              global.globalAppConfig.currentBook.currentChapterInfo.calculateCurrentPage(global.globalAppConfig.currentBook.currentPosInChapter) +
-                  1;
+          int currentPage = global.globalAppConfig.currentBook.currentChapterInfo
+                  .calculateCurrentPage(global.globalAppConfig.currentBook.currentPosInChapter) +
+              1;
           showPageNumber = '$currentPage/${global.globalAppConfig.currentBook.currentChapterInfo.totalPages}';
         }
       }
@@ -208,10 +224,17 @@ class _MainPageState extends State<MainPage> {
             child: ListView(
           children: <Widget>[
             const DrawerHeader(
-              decoration: BoxDecoration(),
-                child: Text('好好讀書', textAlign: TextAlign.center, style: TextStyle(fontSize: 26),)),
+                decoration: BoxDecoration(),
+                child: Text(
+                  '好好讀書',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 26),
+                )),
             ListTile(
-                leading: const Icon(Icons.open_in_new_rounded, color: Colors.blueAccent,),
+                leading: const Icon(
+                  Icons.open_in_new_rounded,
+                  color: Colors.blueAccent,
+                ),
                 title: const Text('開啟書本'),
                 onTap: () {
                   Navigator.pop(context);
@@ -252,15 +275,16 @@ class _MainPageState extends State<MainPage> {
                 applicationVersion: _packageInfo.version,
                 applicationLegalese: '\u{a9} Tony Huang',
                 aboutBoxChildren: aboutBoxChildren,
-                child: const Text('關於 好好讀書')
-            )
+                child: const Text('關於 好好讀書'))
           ],
         )),
         body: PrintBook(refreshAppBar: () {
           _refreshAppBar();
         }),
       );
-    } else {
+    }
+
+    if (_hasStoragePermission == 'false') {
       objScaffold = Scaffold(
           appBar: AppBar(
             title: Text(widget.title),
@@ -292,5 +316,4 @@ class _MainPageState extends State<MainPage> {
 
     return true;
   }
-
 }
