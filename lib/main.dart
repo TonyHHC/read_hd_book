@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:material_color_generator/material_color_generator.dart';
-import 'package:read_hd_book/app_config.dart';
+import 'package:flutter/services.dart';
 
+import 'app_config.dart';
 import 'global.dart' as global;
 import 'main_page.dart';
 import 'browse_books.dart';
 import 'browse_chapters.dart';
 import 'settings.dart';
 
+void setNavigationBarColor() {
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(systemNavigationBarColor: Colors.black));
+}
+
 Future<void> main() async {
+  //setNavigationBarColor();
   runApp(const App());
 }
 
@@ -79,5 +85,7 @@ class _App extends State<App> {
       }),
     );
   }
+
+
 }
 

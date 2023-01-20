@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 import 'global.dart' as global;
 import 'app_config.dart';
@@ -122,19 +123,19 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    Scaffold objScaffold = Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: Center(
-          child: Image.asset(
-            'assets/read_hd_book.png',
-            //height: 1024,
-            //width: 1024,
-          ),
-        )
-    );
+    Scaffold objScaffold;
 
+    // change Android Navigation Bar color
+    SystemUiOverlayStyle overlayStyle = SystemUiOverlayStyle(
+      systemNavigationBarColor: global.globalAppConfig.canvasBackgroundColor,
+      systemNavigationBarIconBrightness: Brightness.dark,
+      systemNavigationBarDividerColor: global.globalAppConfig.themeDataPrimarySwatch,
+    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      SystemChrome.setSystemUIOverlayStyle(overlayStyle);
+    });
+
+    // About Box
     final ThemeData theme = Theme.of(context);
     final TextStyle textStyle = theme.textTheme.bodyMedium!;
     final List<Widget> aboutBoxChildren = <Widget>[
@@ -156,6 +157,7 @@ class _MainPageState extends State<MainPage> {
       ),
     ];
 
+    // Start Widget build
     if (_hasStoragePermission == 'true') {
       var height = AppBar().preferredSize.height;
       TextStyle primaryStyle = TextStyle(fontSize: height / 2.5, color: Colors.white);
@@ -284,9 +286,7 @@ class _MainPageState extends State<MainPage> {
           _refreshAppBar();
         }),
       );
-    }
-
-    if (_hasStoragePermission == 'false') {
+    } else {
       objScaffold = Scaffold(
           appBar: AppBar(
             title: Text(widget.title),
