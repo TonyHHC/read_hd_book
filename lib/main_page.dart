@@ -97,6 +97,7 @@ class _MainPageState extends State<MainPage> {
           _resetApp(),
           setState(() {
             _refreshAppBarAgain = true;
+            changeNavigationBarColor();
           }),
       },
     });
@@ -119,21 +120,23 @@ class _MainPageState extends State<MainPage> {
     super.initState();
     _initPackageInfo();
     _checkStoragePermission();
+    changeNavigationBarColor();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    Scaffold objScaffold;
-
-    // change Android Navigation Bar color
+  void changeNavigationBarColor() {
     SystemUiOverlayStyle overlayStyle = SystemUiOverlayStyle(
       systemNavigationBarColor: global.globalAppConfig.canvasBackgroundColor,
-      systemNavigationBarIconBrightness: Brightness.dark,
+      systemNavigationBarIconBrightness: Brightness.light,
       systemNavigationBarDividerColor: global.globalAppConfig.themeDataPrimarySwatch,
     );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       SystemChrome.setSystemUIOverlayStyle(overlayStyle);
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Scaffold objScaffold;
 
     // About Box
     final ThemeData theme = Theme.of(context);
@@ -160,8 +163,8 @@ class _MainPageState extends State<MainPage> {
     // Start Widget build
     if (_hasStoragePermission == 'true') {
       var height = AppBar().preferredSize.height;
-      TextStyle primaryStyle = TextStyle(fontSize: height / 2.5, color: Colors.white);
-      TextStyle secondaryStyle = TextStyle(fontSize: height / 4, color: Colors.white);
+      TextStyle primaryStyle = TextStyle(fontSize: height / 2.5, color:Theme.of(context).primaryTextTheme.button?.color);
+      TextStyle secondaryStyle = TextStyle(fontSize: height / 4, color:Theme.of(context).primaryTextTheme.button?.color);
 
       String showBookName = widget.title;
       String showAuthor = _packageInfo.version;
