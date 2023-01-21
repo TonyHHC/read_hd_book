@@ -128,6 +128,8 @@ class ChapterInfo {
     columnsPerPage = canvasSize.width ~/ (fontSize + newlineSpace);
     wordsPerLine = (canvasSize.height - canvasTopSpace - canvasBottomSpace) ~/ (fontSize * wordSpace);
 
+    pageStartPos.clear();
+
     int words = 0;
     int columns = 1;
     for (int i = 0; i < chapterString.length; i++) {

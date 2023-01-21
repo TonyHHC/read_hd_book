@@ -107,12 +107,26 @@ class _PrintBook extends State<PrintBook> {
 }
 
 class MyPainter extends CustomPainter {
+
+  static Size prevSize = const Size(0,0);
+
   @override
   void paint(Canvas canvas, Size size) {
+    bool needCalculateChapterProperties = false;
+
     //print(size);
+    // 需要重新計算章節屬性 (因為螢幕旋轉或變大小)
+    if(size != prevSize) {
+      prevSize = size;
+      needCalculateChapterProperties = true;
+    }
+
+    if (global.globalAppConfig.currentBook.currentChapterInfo.totalPages <= 0) {
+      needCalculateChapterProperties = true;
+    }
 
     // 計算章節屬性
-    if (global.globalAppConfig.currentBook.currentChapterInfo.totalPages <= 0) {
+    if (needCalculateChapterProperties) {
       global.globalAppConfig.currentBook.currentChapterInfo.calculateChapterProperties(
           size,
           global.globalAppConfig.fontSize,

@@ -285,9 +285,16 @@ class _MainPageState extends State<MainPage> {
                 child: const Text('關於 好好讀書'))
           ],
         )),
-        body: PrintBook(refreshAppBar: () {
+        body: /*PrintBook(refreshAppBar: () {
           _refreshAppBar();
-        }),
+        }),*/
+        OrientationBuilder(
+          builder: (context, orientation) {
+            return PrintBook(refreshAppBar: () {
+              _refreshAppBar();
+            });
+          },
+        )
       );
     } else {
       objScaffold = Scaffold(

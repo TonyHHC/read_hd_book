@@ -15,7 +15,18 @@ void setNavigationBarColor() {
 }
 
 Future<void> main() async {
-  //setNavigationBarColor();
+  /*
+  // force App on portrait mode
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ],
+  ).then((val) {
+    runApp(const App());
+  });*/
+
   runApp(const App());
 }
 
