@@ -282,7 +282,7 @@ class _MainPageState extends State<MainPage> {
                 applicationVersion: _packageInfo.version,
                 applicationLegalese: '\u{a9} Tony Huang',
                 aboutBoxChildren: aboutBoxChildren,
-                child: const Text('關於 好好讀書'))
+                child: const Text('關於 好好讀書 App'))
           ],
         )),
         body: /*PrintBook(refreshAppBar: () {
