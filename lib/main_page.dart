@@ -40,21 +40,24 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<void> _checkStoragePermission() async {
-    /*PermissionStatus resultM = await Permission.manageExternalStorage.request();
-    PermissionStatus resultS = await Permission.storage.request();
+    PermissionStatus resultM = await Permission.manageExternalStorage.request();
+    //PermissionStatus resultS = await Permission.storage.request();
 
-    if (resultM.isGranted && resultS.isGranted) {
-      setState(() => _hasStoragePermission = true);
+    //if (resultM.isGranted && resultS.isGranted) {
+    if (resultM.isGranted ) {
+      setState(() => _hasStoragePermission = 'true');
     } else {
-      setState(() => _hasStoragePermission = false);
-    }*/
-    PermissionStatus resultS = await Permission.storage.request();
+      setState(() => _hasStoragePermission = 'false');
+    }
+
+    /*PermissionStatus resultS = await Permission.storage.request();
 
     if (resultS.isGranted) {
       setState(() => _hasStoragePermission = 'true');
     } else {
       setState(() => _hasStoragePermission = 'false');
-    }
+    }*/
+
   }
 
   void _onTapDir(details) {
